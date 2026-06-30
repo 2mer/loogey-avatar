@@ -13,6 +13,7 @@ export function Header({ onCartOpen, onBuyGems }: HeaderProps) {
   return (
     <header className="fixed top-0 right-0 left-0 z-40 flex items-center justify-between border-b border-border bg-background/80 px-6 py-3 backdrop-blur-md">
       <span className="font-display text-2xl tracking-wide text-neon drop-shadow-[0_0_8px_#39FF14]">
+        <img src={`${import.meta.env.BASE_URL}favicon.png`} alt="" className="mr-2 inline-block size-7 align-middle" />
         LOOGIE
       </span>
       <div className="flex items-center gap-3">
