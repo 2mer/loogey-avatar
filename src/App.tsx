@@ -10,7 +10,8 @@ import { Gallery } from '@/components/Gallery'
 import { Footer } from '@/components/Footer'
 import { CartSheet } from '@/components/CartSheet'
 import { CurrencyModal } from '@/components/CurrencyModal'
-import { CursorTrail } from '@/components/CursorTrail'
+import { GooeyCursor } from '@/components/GooeyCursor'
+import { BGM } from '@/components/BGM'
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false)
@@ -25,16 +26,17 @@ function App() {
       <CartProvider>
         <ParticlesProvider init={initParticles}>
           <ParticlesBackground />
-          <CursorTrail />
           <Header
             onCartOpen={() => setCartOpen(true)}
             onBuyGems={() => setGemsModalOpen(true)}
           />
-          <main className="pt-16">
-            <Hero />
-            <Gallery />
-          </main>
-          <Footer />
+          <div style={{ filter: 'url(#displacement)' }}>
+            <main className="pt-16">
+              <Hero />
+              <Gallery />
+            </main>
+            <Footer />
+          </div>
           <CartSheet
             open={cartOpen}
             onOpenChange={setCartOpen}
@@ -44,6 +46,8 @@ function App() {
             open={gemsModalOpen}
             onOpenChange={setGemsModalOpen}
           />
+          <GooeyCursor />
+          <BGM />
         </ParticlesProvider>
       </CartProvider>
     </TooltipProvider>
