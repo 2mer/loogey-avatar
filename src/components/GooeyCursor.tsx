@@ -16,7 +16,7 @@ interface Orbital {
   vy: number
 }
 
-const TRAIL_SIZE = 36
+const TRAIL_SIZE = 32
 const CURSOR = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
 let CURSOR_ACTIVE = false
 const STIFFNESS = 0.06
@@ -45,11 +45,6 @@ export function GooeyCursor() {
       CURSOR.x = e.clientX
       CURSOR.y = e.clientY
       CURSOR_ACTIVE = true
-      const id = idRef.current++
-      setBlobs((prev) => [
-        ...prev.slice(-8),
-        { id, x: e.clientX, y: e.clientY, life: 1 },
-      ])
     }
     window.addEventListener('mousemove', onMove)
     return () => window.removeEventListener('mousemove', onMove)
@@ -57,12 +52,6 @@ export function GooeyCursor() {
 
   useEffect(() => {
     function tick() {
-      setBlobs((prev) =>
-        prev
-          .map((b) => ({ ...b, life: b.life - 0.04 }))
-          .filter((b) => b.life > 0),
-      )
-
       if (!CURSOR_ACTIVE) return
 
       setOrbitals((prev) => {
@@ -87,7 +76,9 @@ export function GooeyCursor() {
           }
         }
 
-        return prev.map((o, i) => {
+        const next: Orbital[] = []
+        for (let i = 0; i < prev.length; i++) {
+          const o = prev[i]
           const dx = CURSOR.x - o.x
           const dy = CURSOR.y - o.y
           const dist = Math.sqrt(dx * dx + dy * dy)
@@ -117,8 +108,23 @@ export function GooeyCursor() {
             }
           }
 
-          return { ...o, x: o.x + vx, y: o.y + vy, vx, vy }
+          next.push({ ...o, x: o.x + vx, y: o.y + vy, vx, vy })
+        }
+
+        setBlobs((prev) => {
+          const aged = prev
+            .map((b) => ({ ...b, life: b.life - 0.04 }))
+            .filter((b) => b.life > 0)
+          const fresh: Blob[] = next.map((o) => ({
+            id: idRef.current++,
+            x: o.x,
+            y: o.y,
+            life: 1,
+          }))
+          return [...aged, ...fresh].slice(-60)
         })
+
+        return next
       })
     }
 
