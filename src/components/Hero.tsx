@@ -26,7 +26,7 @@ export function Hero() {
           LOOGIE
         </h1>
         <p className="mt-4 text-center text-sm text-muted-foreground">
-          💎 ALL SALES FINAL (NOTHING IS EVER SOLD)
+          We make loogies
         </p>
       </div>
 

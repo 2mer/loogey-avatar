@@ -25,6 +25,10 @@
   --font-sans: "Inter", system-ui, sans-serif;
 }
 
+button {
+  cursor: pointer;
+}
+
 body {
   margin: 0;
   cursor: default;
